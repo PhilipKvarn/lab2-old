@@ -2,25 +2,25 @@
 import java.util.ArrayList;
 import java.util.function.Consumer;;
 
-public class VeichleLoader<carType extends Veichle> {
+public class VehicleLoader<carType extends Vehicle> {
 
     ArrayList<carType> loadingStorage = new ArrayList<>();
 
     protected int maxCapacity;
 
-    public VeichleLoader(int maxCap) {
+    public VehicleLoader(int maxCap) {
         maxCapacity = maxCap;
     }
 
-    public void LoadNewVeichle(carType veichle) {
+    public void LoadNewVehicle(carType Vehicle) {
         if (loadingStorage.size() < this.maxCapacity) {
-            loadingStorage.add(veichle);
+            loadingStorage.add(Vehicle);
         }
 
         return;
     }
 
-    public carType unloadVeichle() {
+    public carType unloadVehicle() {
         if(loadingStorage.isEmpty()){
             return null;
         } else {

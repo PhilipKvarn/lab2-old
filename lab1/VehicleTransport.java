@@ -1,31 +1,31 @@
 import java.awt.Color;
 
-public class VeichleTransport extends Truck {
+public class VehicleTransport extends Truck {
 
-    VeichleLoader<Veichle> parentLoader;
+    VehicleLoader<Vehicle> parentLoader;
 
-    public VeichleTransport(int nrDoors, double enginePower, Color color, String modelName, int maxCapacity) {
+    public VehicleTransport(int nrDoors, double enginePower, Color color, String modelName, int maxCapacity) {
         super(nrDoors, enginePower, color, modelName);
         setLoadingAreaDown(false);
-        parentLoader = new VeichleLoader<>(maxCapacity);
+        parentLoader = new VehicleLoader<>(maxCapacity);
     }
 
-    public void LoadNewVeichle(Veichle veichle) {
-        if (veichle instanceof VeichleTransport) {
+    public void LoadNewVehicle(Vehicle Vehicle) {
+        if (Vehicle instanceof VehicleTransport) {
             return;
         } else{
-            if (Math.abs(veichle.getPosition().x) - Math.abs(getPosition().x) <= 1 &&
-                Math.abs(veichle.getPosition().y) - Math.abs(getPosition().y) <= 1) {
-            parentLoader.LoadNewVeichle(veichle);
+            if (Math.abs(Vehicle.getPosition().x) - Math.abs(getPosition().x) <= 1 &&
+                Math.abs(Vehicle.getPosition().y) - Math.abs(getPosition().y) <= 1) {
+            parentLoader.LoadNewVehicle(Vehicle);
             } else {
-                // Handle veichle too far away to load
+                // Handle Vehicle too far away to load
             }
         }
         return;
     }
 
-    public Veichle unloadVeichle() {
-        Veichle unloaded_car = parentLoader.unloadVeichle();
+    public Vehicle unloadVehicle() {
+        Vehicle unloaded_car = parentLoader.unloadVehicle();
         if (unloaded_car != null) {
             unloaded_car.setPosition(Vector2.add(getPosition(), -1, -1));   
         }

@@ -1,6 +1,6 @@
 import java.awt.Color;
 
-public class Truck extends Veichle {
+public class Truck extends Vehicle {
 
     protected boolean loadingAreaDown;
 

@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Veichle implements Movable {
+public class Vehicle implements Movable {
 
     private int nrDoors;
     protected double enginePower;
@@ -8,11 +8,11 @@ public class Veichle implements Movable {
     private Color color;
     private String modelName;
 
-    private Vector2 veichlePosition = new Vector2(0.0, 0.0);
-    private Vector2 veichleDirection = new Vector2(1.0, 0.0);
+    private Vector2 VehiclePosition = new Vector2(0.0, 0.0);
+    private Vector2 VehicleDirection = new Vector2(1.0, 0.0);
     private int rotationSpeed = 10; // rotation of 10degrees per rotation
 
-    public Veichle(int nrDoors, double enginePower, Color color, String modelName) {
+    public Vehicle(int nrDoors, double enginePower, Color color, String modelName) {
         this.nrDoors = nrDoors;
         this.enginePower = enginePower;
         this.color = color;
@@ -170,9 +170,9 @@ public class Veichle implements Movable {
      */
     public void move() {
         if (currentSpeed > 0.0) {
-            veichlePosition.add(
-                    getCurrentSpeed() * veichleDirection.x,
-                    getCurrentSpeed() * veichleDirection.y);
+            VehiclePosition.add(
+                    getCurrentSpeed() * VehicleDirection.x,
+                    getCurrentSpeed() * VehicleDirection.y);
         }
     }
 
@@ -181,7 +181,7 @@ public class Veichle implements Movable {
      * modifies this object's directional Vector2 by a fixed positive rotationSpeed.
      */
     public void turnLeft() {
-        veichleDirection.rotateByDeg(rotationSpeed);
+        VehicleDirection.rotateByDeg(rotationSpeed);
     }
 
     @Override
@@ -189,7 +189,7 @@ public class Veichle implements Movable {
      * modifies this object's directional Vector2 by a fixed negative rotationSpeed.
      */
     public void turnRight() {
-        veichleDirection.rotateByDeg(-rotationSpeed);
+        VehicleDirection.rotateByDeg(-rotationSpeed);
     }
 
     /**
@@ -198,7 +198,7 @@ public class Veichle implements Movable {
      * @return a Vector2 type of this object position
      */
     public void setPosition(Vector2 newPosition) {
-        veichlePosition = newPosition;
+        VehiclePosition = newPosition;
         return;
     }
 
@@ -208,7 +208,7 @@ public class Veichle implements Movable {
      * @return a Vector2 type of this object position
      */
     public Vector2 getPosition() {
-        return veichlePosition;
+        return VehiclePosition;
     }
 
     /**
@@ -217,11 +217,11 @@ public class Veichle implements Movable {
      * @return a Vector2 type of this object direction.
      */
     public Vector2 getDirection() {
-        return veichleDirection;
+        return VehicleDirection;
     }
 }
 
-class TurboCar extends Veichle {
+class TurboCar extends Vehicle {
 
     private boolean activeTurbo;
 
@@ -269,7 +269,7 @@ class TurboCar extends Veichle {
 
 }
 
-class TrimmedCar extends Veichle {
+class TrimmedCar extends Vehicle {
     private double trimFactor;
 
     public TrimmedCar(int nrDoors, double enginePower, Color color, String modelName, double trimFactor) {
