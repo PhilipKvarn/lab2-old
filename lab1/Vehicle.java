@@ -10,7 +10,6 @@ public class Vehicle implements Movable {
 
     private Vector2 VehiclePosition = new Vector2(0.0, 0.0);
     private Vector2 VehicleDirection = new Vector2(1.0, 0.0);
-    private int rotationSpeed = 10; // rotation of 10degrees per rotation
 
     public Vehicle(int nrDoors, double enginePower, Color color, String modelName) {
         this.nrDoors = nrDoors;
