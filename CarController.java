@@ -26,6 +26,7 @@ public class CarController {
     ArrayList<Vehicle> cars = new ArrayList<>();
     ArrayList<TurboCar> turboCars = new ArrayList<>();
     ArrayList<Truck> trucks = new ArrayList<>();
+    ArrayList<VehicleWorkshop<Volvo240>> volvo_workshops = new ArrayList<>();
     // Detta är inte extensible, eller lätt att bygga ovanpå.
     // Föreställ dig att du vill skapa en change angle för alla Scanias.
     // Du hade behövt skapa en ny lista av scanias.
@@ -60,7 +61,7 @@ public class CarController {
         cc.cars.add(instanceof_Truck);
         cc.trucks.add(instanceof_Truck);
         instanceof_Truck.setPosition(Vector2.add(Vector2.zero(),0, 400));
- 
+
         // Start the timer
         cc.timer.start();
     }
@@ -71,11 +72,19 @@ public class CarController {
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             for (Vehicle car : cars) {
-                car.move();
-                //int x = (int) Math.round(car.getPosition().x);
-                //int y = (int) Math.round(car.getPosition().y);
-                //frame.drawPanel.moveit(x, y);
-                // repaint() calls the paintComponent method of the panel
+                if(
+                    car.getCurrentSpeed() + car.getPosition().x > 700 ||
+                    car.getCurrentSpeed() + car.getPosition().y > 700 ||
+                    car.getPosition().x + car.getCurrentSpeed() < 0 ||
+                    car.getPosition().y + car.getCurrentSpeed() < 0 
+                ){
+                    car.turnRight(170);
+                    //car.stopEngine();
+                    car.move();
+                } else {
+                    car.move();
+                }
+
                 frame.drawPanel.repaint();
             }
         }
@@ -96,27 +105,39 @@ public class CarController {
         }
     }
 
-    void turboOn(int amount) {
+    void turboOn() {
         for (TurboCar car: turboCars) {
             car.setTurboActive();
         }
     }
 
-    void turboOff(int amount) {
+    void turboOff() {
         for (TurboCar car : turboCars) {
             car.setTurboInactive();
         }
     }
 
-    void liftTruckBed(int amount) {
+    void liftTruckBed() {
         for (Truck car : trucks) {
             car.setLoadingAreaDown(false);
         }
     }
 
-    void lowerTruckBed(int amount) {
+    void lowerTruckBed() {
         for (Truck car : trucks) {
             car.setLoadingAreaDown(true);
+        }
+    }
+
+    void startEngine() {
+        for (Vehicle car : cars) {
+            car.startEngine();
+        }
+    }
+
+    void stopEngine() {
+        for (Vehicle car : cars) {
+            car.stopEngine();
         }
     }
 

@@ -93,6 +93,6 @@ public class DrawPanel extends JPanel{
             g.drawImage(tuple.img, (int) imgpos.x, (int) imgpos.y, null);
         }
         //g.drawImage(volvoImage, volvoPoint.x, volvoPoint.y, null); // see javadoc for more info on the parameters
-        //g.drawImage(volvoWorkshopImage, volvoWorkshopPoint.x, volvoWorkshopPoint.y, null);
+        g.drawImage(volvoWorkshopImage, volvoWorkshopPoint.x, volvoWorkshopPoint.y, null);
     }
 }

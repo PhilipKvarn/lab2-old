@@ -180,16 +180,16 @@ public class Vehicle implements Movable {
     /**
      * modifies this object's directional Vector2 by a fixed positive rotationSpeed.
      */
-    public void turnLeft() {
-        VehicleDirection.rotateByDeg(rotationSpeed);
+    public void turnLeft(int degrees) {
+        VehicleDirection.rotateByDeg(degrees);
     }
 
     @Override
     /**
      * modifies this object's directional Vector2 by a fixed negative rotationSpeed.
      */
-    public void turnRight() {
-        VehicleDirection.rotateByDeg(-rotationSpeed);
+    public void turnRight(int degrees) {
+        VehicleDirection.rotateByDeg(-degrees);
     }
 
     /**
