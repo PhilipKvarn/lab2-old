@@ -22,6 +22,17 @@ public class CarController {
     CarView frame;
     // A list of cars, modify if needed
     ArrayList<Vehicle> cars = new ArrayList<>();
+    ArrayList<TurboCar> turboCars = new ArrayList<>();
+    ArrayList<Truck> trucks = new ArrayList<>();
+    // Detta är inte extensible, eller lätt att bygga ovanpå.
+    // Föreställ dig att du vill skapa en change angle för alla Scanias.
+    // Du hade behövt skapa en ny lista av scanias.
+    // Och Scanias kommer existera i både trucks och scanias.
+    // Ett annat alternativ är att på något sätt göra att vi har en godt subtyp till car.
+    // Och att när vi vill loopa igenom alla scanias i listan.
+    // detta kan däremot också skapa problem, men det är andra problem.
+    // Men det är nog en mer korrekt implomentation.
+
 
     //methods:
 
@@ -57,9 +68,40 @@ public class CarController {
     // Calls the gas method for each car once
     void gas(int amount) {
         double gas = ((double) amount) / 100;
-        for (Vehicle car : cars
-                ) {
+        for (Vehicle car : cars) {
             car.gas(gas);
         }
     }
+    
+    void brake(int amount) {
+        double brake_amount = ((double) amount) / 100;
+        for (Vehicle car : cars) {
+            car.brake(brake_amount);
+        }
+    }
+
+    void turboOn(int amount) {
+        for (TurboCar car : turboCars) {
+            car.setTurboActive();
+        }
+    }
+
+    void turboOff(int amount) {
+        for (TurboCar car : turboCars) {
+            car.setTurboInactive();
+        }
+    }
+
+    void liftTruckBed(int amount) {
+        for (Truck car : trucks) {
+            car.setLoadingAreaDown(false);
+        }
+    }
+
+    void lowerTruckBed(int amount) {
+        for (Truck car : trucks) {
+            car.setLoadingAreaDown(true);
+        }
+    }
+
 }
