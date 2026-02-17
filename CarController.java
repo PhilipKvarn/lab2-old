@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 /*
 * This class represents the Controller part in the MVC pattern.
@@ -26,7 +27,7 @@ public class CarController {
     ArrayList<Vehicle> cars = new ArrayList<>();
     ArrayList<TurboCar> turboCars = new ArrayList<>();
     ArrayList<Truck> trucks = new ArrayList<>();
-    ArrayList<VehicleWorkshop<Volvo240>> volvo_workshops = new ArrayList<>();
+    VehicleWorkshop<Volvo240> volvo_workshops = new VehicleWorkshop<>(4);
     // Detta är inte extensible, eller lätt att bygga ovanpå.
     // Föreställ dig att du vill skapa en change angle för alla Scanias.
     // Du hade behövt skapa en ny lista av scanias.
@@ -36,6 +37,7 @@ public class CarController {
     // detta kan däremot också skapa problem, men det är andra problem.
     // Men det är nog en mer korrekt implomentation.
 
+    private Vector2 volvo_workshop_location = new Vector2(300, 300);
 
     //methods:
 
@@ -49,12 +51,14 @@ public class CarController {
         Volvo240 instanceof_Volvo240 = new Volvo240();
         cc.cars.add(instanceof_Volvo240);
         cc.frame.drawPanel.instantiate_image(instanceof_Volvo240, "pics/Volvo240.jpg");
+        instanceof_Volvo240.turnLeft(45);
         
         Saab95 instanceof_Saab95 = new Saab95();
         cc.frame.drawPanel.instantiate_image(instanceof_Saab95, "pics/Saab95.jpg");
         cc.cars.add(instanceof_Saab95);
         cc.turboCars.add(instanceof_Saab95);
         instanceof_Saab95.setPosition(Vector2.add(Vector2.zero(), 0, 200));
+        instanceof_Saab95.turnLeft(20);
         
         Truck instanceof_Truck = new Truck(100, 100, Color.BLACK,"fn");
         cc.frame.drawPanel.instantiate_image(instanceof_Truck, "pics/Scania.jpg");
@@ -83,6 +87,18 @@ public class CarController {
                     car.move();
                 } else {
                     car.move();
+                }
+                if (
+                    car instanceof Volvo240 &&
+                    car.getPosition().x > volvo_workshop_location.x-50 && 
+                    car.getPosition().x < volvo_workshop_location.x+50 && 
+                    car.getPosition().y > volvo_workshop_location.x-50 && 
+                    car.getPosition().x < volvo_workshop_location.x+50 
+                ) {
+                    System.out.println("loaded Volvo");
+                    volvo_workshops.loadCar((Volvo240)car);
+                    car.setPosition(new Vector2(10000,10000));
+                    car.stopEngine();
                 }
 
                 frame.drawPanel.repaint();
