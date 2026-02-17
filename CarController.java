@@ -1,4 +1,6 @@
 import javax.swing.*;
+
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -40,11 +42,25 @@ public class CarController {
         // Instance of this class
         CarController cc = new CarController();
 
-        cc.cars.add(new Volvo240());
-
         // Start a new view and send a reference of self
         cc.frame = new CarView("CarSim 1.0", cc);
 
+        Volvo240 instanceof_Volvo240 = new Volvo240();
+        cc.cars.add(instanceof_Volvo240);
+        cc.frame.drawPanel.instantiate_image(instanceof_Volvo240, "pics/Volvo240.jpg");
+        
+        Saab95 instanceof_Saab95 = new Saab95();
+        cc.frame.drawPanel.instantiate_image(instanceof_Saab95, "pics/Saab95.jpg");
+        cc.cars.add(instanceof_Saab95);
+        cc.turboCars.add(instanceof_Saab95);
+        instanceof_Saab95.setPosition(Vector2.add(Vector2.zero(), 0, 200));
+        
+        Truck instanceof_Truck = new Truck(100, 100, Color.BLACK,"fn");
+        cc.frame.drawPanel.instantiate_image(instanceof_Truck, "pics/Scania.jpg");
+        cc.cars.add(instanceof_Truck);
+        cc.trucks.add(instanceof_Truck);
+        instanceof_Truck.setPosition(Vector2.add(Vector2.zero(),0, 400));
+ 
         // Start the timer
         cc.timer.start();
     }
@@ -56,9 +72,9 @@ public class CarController {
         public void actionPerformed(ActionEvent e) {
             for (Vehicle car : cars) {
                 car.move();
-                int x = (int) Math.round(car.getPosition().x);
-                int y = (int) Math.round(car.getPosition().y);
-                frame.drawPanel.moveit(x, y);
+                //int x = (int) Math.round(car.getPosition().x);
+                //int y = (int) Math.round(car.getPosition().y);
+                //frame.drawPanel.moveit(x, y);
                 // repaint() calls the paintComponent method of the panel
                 frame.drawPanel.repaint();
             }
@@ -81,7 +97,7 @@ public class CarController {
     }
 
     void turboOn(int amount) {
-        for (TurboCar car : turboCars) {
+        for (TurboCar car: turboCars) {
             car.setTurboActive();
         }
     }
