@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Vector;
 
 /*
 * This class represents the Controller part in the MVC pattern.
@@ -51,14 +50,12 @@ public class CarController {
         Volvo240 instanceof_Volvo240 = new Volvo240();
         cc.cars.add(instanceof_Volvo240);
         cc.frame.drawPanel.instantiate_image(instanceof_Volvo240, "pics/Volvo240.jpg");
-        instanceof_Volvo240.turnLeft(45);
         
         Saab95 instanceof_Saab95 = new Saab95();
         cc.frame.drawPanel.instantiate_image(instanceof_Saab95, "pics/Saab95.jpg");
         cc.cars.add(instanceof_Saab95);
         cc.turboCars.add(instanceof_Saab95);
         instanceof_Saab95.setPosition(Vector2.add(Vector2.zero(), 0, 200));
-        instanceof_Saab95.turnLeft(20);
         
         Truck instanceof_Truck = new Truck(100, 100, Color.BLACK,"fn");
         cc.frame.drawPanel.instantiate_image(instanceof_Truck, "pics/Scania.jpg");
@@ -76,6 +73,11 @@ public class CarController {
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             for (Vehicle car : cars) {
+                //
+                //  Detta är troligen inte single responsibility.
+                //  Logik borde inte hända här i controller.
+                //  Det ska bara vara ett sätt att kalla på alla metoder relaterat till Veichle.
+                //  
                 if(
                     car.getCurrentSpeed() + car.getPosition().x > 700 ||
                     car.getCurrentSpeed() + car.getPosition().y > 700 ||
@@ -100,7 +102,6 @@ public class CarController {
                     car.setPosition(new Vector2(10000,10000));
                     car.stopEngine();
                 }
-
                 frame.drawPanel.repaint();
             }
         }
