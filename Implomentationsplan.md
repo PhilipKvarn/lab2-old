@@ -19,3 +19,16 @@ Så då borde CarController inte sköta saker som collision detection.
 
 ## Dependency Inversion Principle:
 Det känns som att detta kan användas här men jag är inte säker hur.
+
+
+# Refactoring:
+
+* Trimmed och Turbo borde vara Interfaces, just Nu kan vi inte ha t.ex en turbo-trim-Car eller turbo-trim-Truck
+
+* Veichle transport har all logik som veichle loader borde ha. Som att bara lasta när man är nära.
+
+* Om vi gör detta kan vi ta bort mer logik från CarController.
+
+* Just nu är CarController och CarView beroende av varandra. Vi vill ha en Main/Game klass som har CarController och CarView så det blir Game --> CarView --> CarController.
+
+* Borde se över TimerListener och om den ska flyttas till sin egen klass.
