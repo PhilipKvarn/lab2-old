@@ -26,7 +26,7 @@ public class CarController {
     ArrayList<Vehicle> cars = new ArrayList<>();
     ArrayList<TurboCar> turboCars = new ArrayList<>();
     ArrayList<Truck> trucks = new ArrayList<>();
-    VehicleWorkshop<Volvo240> volvo_workshops = new VehicleWorkshop<>(4);
+    VehicleWorkshop<Volvo240> volvo_workshop = new VehicleWorkshop<>(4,new Vector2(300,300));
     // Detta är inte extensible, eller lätt att bygga ovanpå.
     // Föreställ dig att du vill skapa en change angle för alla Scanias.
     // Du hade behövt skapa en ny lista av scanias.
@@ -92,13 +92,13 @@ public class CarController {
                 }
                 if (
                     car instanceof Volvo240 &&
-                    car.getPosition().x > volvo_workshop_location.x-50 && 
-                    car.getPosition().x < volvo_workshop_location.x+50 && 
-                    car.getPosition().y > volvo_workshop_location.x-50 && 
-                    car.getPosition().x < volvo_workshop_location.x+50 
+                    car.getPosition().x > volvo_workshop.getPosition().x-50 && 
+                    car.getPosition().x < volvo_workshop.getPosition().x+50 && 
+                    car.getPosition().y > volvo_workshop.getPosition().x-50 && 
+                    car.getPosition().x < volvo_workshop.getPosition().x+50 
                 ) {
                     System.out.println("loaded Volvo");
-                    volvo_workshops.loadCar((Volvo240)car);
+                    volvo_workshop.loadCar((Volvo240)car);
                     car.setPosition(new Vector2(10000,10000));
                     car.stopEngine();
                 }

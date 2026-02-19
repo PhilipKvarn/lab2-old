@@ -6,13 +6,6 @@ Då kan vi potentiellt ta bort dependecies från CarView <---> CarController.
 Eftersom de beror på varandra.
 Då följer vi också single responsibility bättre.
 
-UPDATERING:
-Jag tror inte att det ovan fungerar eftersom CarView har event listeners som kallar på CarController.
-Så det är nog bättre att vi bara har CarView som kallar på CarController.
-Och att CarView ligger i en Game Klass som agerar som vår main funktion
-Game Klassen lagrar alla saker liksom.
-men vi måste fortfarande passera listan av Veichles i Game till CarController
-
 Logiken för kollision bör inte hanteras i CarController.
 CarController är bara till för att skicka instruktioner till Veichles.
 Så då borde CarController inte sköta saker som collision detection.
@@ -20,8 +13,7 @@ Så då borde CarController inte sköta saker som collision detection.
 ## Dependency Inversion Principle:
 Det känns som att detta kan användas här men jag är inte säker hur.
 
-
-# Refactoring:
+# Refactoring Idéer:
 
 * Trimmed och Turbo borde vara Interfaces, just Nu kan vi inte ha t.ex en turbo-trim-Car eller turbo-trim-Truck
 
@@ -32,3 +24,34 @@ Det känns som att detta kan användas här men jag är inte säker hur.
 * Just nu är CarController och CarView beroende av varandra. Vi vill ha en Main/Game klass som har CarController och CarView så det blir Game --> CarView --> CarController.
 
 * Borde se över TimerListener och om den ska flyttas till sin egen klass.
+
+* Gör turbo till en Wrapperklass altså att Trimmed<T extends Veichle> så kan vi kalla veichle.speedfactor*trim() 
+
+
+# Refactoringplan
+
+## STEG 1:
+* Gör main metoden i CarController till en egen klass (Typ Game).
+* flytta över de sakerna som krävs i main metoden till Game klassen.
+* skapa en CarView och en CarController i klassen.
+
+## STEG 2
+* Se till att vi flyttar logik från CarController till Game.
+
+## STEG 3:
+* TimerListener ska till sin egen klass.
+
+## STEG 4:
+* Game ska ha en Timer i sig som använder TimerListener.
+* När vi startar game kan vi välja delay.
+
+# STEG 5:
+* VeichleLoader borde vara klassen som hanterar hur långt bort man får lasta
+* Just nu är det VeichleTransport.
+
+# STEG 6:
+* Skriv om IncrementSpeed() och decrementSpeed() i veichle. har onödig logik.
+
+## STEG KANSKE:
+* Gör om TrimmedCar och TurboCar till egna interfaces eller wrappers
+* Då kan vi ha t.ex TrimmedTurboTruck med samma funktionalitet

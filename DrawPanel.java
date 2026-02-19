@@ -17,12 +17,10 @@ public class DrawPanel extends JPanel{
     // Deprecated:
     // Point volvoPoint = new Point();
 
-    public class VeichleImageTuple{
-        Vehicle vehicle;
-        BufferedImage img;
-    }
-    public ArrayList<VeichleImageTuple> VeichleImageList = new ArrayList<>();
 
+    public record VehicleImageTuple(Vehicle vehicle, BufferedImage img){
+    }
+    public ArrayList<VehicleImageTuple> VeichleImageList = new ArrayList<>();
     //
     //  Instantiates an ImageBuffer for a &veichle.
     //  Detta borde kanske inte göras här utan på ett annat ställe.
@@ -30,9 +28,7 @@ public class DrawPanel extends JPanel{
     //
     public void instantiate_image(Vehicle v, String imgPath){
         try{
-            VeichleImageTuple tuple = new VeichleImageTuple();
-            tuple.vehicle = v;
-            tuple.img = ImageIO.read(DrawPanel.class.getResourceAsStream(imgPath));
+            VehicleImageTuple tuple = new VehicleImageTuple(v,ImageIO.read(DrawPanel.class.getResourceAsStream(imgPath)));
             VeichleImageList.add(tuple);
         } catch (IOException ex){
             ex.printStackTrace();
@@ -70,7 +66,7 @@ public class DrawPanel extends JPanel{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for (VeichleImageTuple tuple : VeichleImageList){
+        for (VehicleImageTuple tuple : VeichleImageList){
             Vector2 imgpos = tuple.vehicle.getPosition();
             g.drawImage(tuple.img, (int) imgpos.x, (int) imgpos.y, null);
         }
