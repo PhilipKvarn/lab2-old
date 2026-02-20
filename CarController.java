@@ -26,19 +26,20 @@ public class CarController {
     ArrayList<Vehicle> cars = new ArrayList<>();
     ArrayList<TurboCar> turboCars = new ArrayList<>();
     ArrayList<Truck> trucks = new ArrayList<>();
-    VehicleWorkshop<Volvo240> volvo_workshop = new VehicleWorkshop<>(4,new Vector2(300,300));
+    VehicleWorkshop<Volvo240> volvo_workshop = new VehicleWorkshop<>(4, new Vector2(300, 300));
     // Detta är inte extensible, eller lätt att bygga ovanpå.
     // Föreställ dig att du vill skapa en change angle för alla Scanias.
     // Du hade behövt skapa en ny lista av scanias.
     // Och Scanias kommer existera i både trucks och scanias.
-    // Ett annat alternativ är att på något sätt göra att vi har en godt subtyp till car.
+    // Ett annat alternativ är att på något sätt göra att vi har en godt subtyp till
+    // car.
     // Och att när vi vill loopa igenom alla scanias i listan.
     // detta kan däremot också skapa problem, men det är andra problem.
     // Men det är nog en mer korrekt implomentation.
 
     private Vector2 volvo_workshop_location = new Vector2(300, 300);
 
-    //methods:
+    // methods:
 
     public static void main(String[] args) {
         // Instance of this class
@@ -50,56 +51,53 @@ public class CarController {
         Volvo240 instanceof_Volvo240 = new Volvo240();
         cc.cars.add(instanceof_Volvo240);
         cc.frame.drawPanel.instantiate_image(instanceof_Volvo240, "pics/Volvo240.jpg");
-        
+        instanceof_Volvo240.turnLeft(45);
         Saab95 instanceof_Saab95 = new Saab95();
         cc.frame.drawPanel.instantiate_image(instanceof_Saab95, "pics/Saab95.jpg");
         cc.cars.add(instanceof_Saab95);
         cc.turboCars.add(instanceof_Saab95);
         instanceof_Saab95.setPosition(Vector2.add(Vector2.zero(), 0, 200));
-        
-        Truck instanceof_Truck = new Truck(100, 100, Color.BLACK,"fn");
+
+        Truck instanceof_Truck = new Truck(100, 100, Color.BLACK, "fn");
         cc.frame.drawPanel.instantiate_image(instanceof_Truck, "pics/Scania.jpg");
         cc.cars.add(instanceof_Truck);
         cc.trucks.add(instanceof_Truck);
-        instanceof_Truck.setPosition(Vector2.add(Vector2.zero(),0, 400));
+        instanceof_Truck.setPosition(Vector2.add(Vector2.zero(), 0, 400));
 
         // Start the timer
         cc.timer.start();
     }
 
-    /* Each step the TimerListener moves all the cars in the list and tells the
-    * view to update its images. Change this method to your needs.
-    * */
+    /*
+     * Each step the TimerListener moves all the cars in the list and tells the
+     * view to update its images. Change this method to your needs.
+     */
     private class TimerListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             for (Vehicle car : cars) {
                 //
-                //  Detta är troligen inte single responsibility.
-                //  Logik borde inte hända här i controller.
-                //  Det ska bara vara ett sätt att kalla på alla metoder relaterat till Veichle.
-                //  
-                if(
-                    car.getCurrentSpeed() + car.getPosition().x > 700 ||
-                    car.getCurrentSpeed() + car.getPosition().y > 700 ||
-                    car.getPosition().x + car.getCurrentSpeed() < 0 ||
-                    car.getPosition().y + car.getCurrentSpeed() < 0 
-                ){
-                    car.turnRight(170);
-                    //car.stopEngine();
+                // Detta är troligen inte single responsibility.
+                // Logik borde inte hända här i controller.
+                // Det ska bara vara ett sätt att kalla på alla metoder relaterat till Veichle.
+                //
+                if (car.getCurrentSpeed() + car.getPosition().x > 700 ||
+                        car.getCurrentSpeed() + car.getPosition().y > 700 ||
+                        car.getPosition().x + car.getCurrentSpeed() < 0 ||
+                        car.getPosition().y + car.getCurrentSpeed() < 0) {
+                    car.turnRight(180);
+                    // car.stopEngine();
                     car.move();
                 } else {
                     car.move();
                 }
-                if (
-                    car instanceof Volvo240 &&
-                    car.getPosition().x > volvo_workshop.getPosition().x-50 && 
-                    car.getPosition().x < volvo_workshop.getPosition().x+50 && 
-                    car.getPosition().y > volvo_workshop.getPosition().x-50 && 
-                    car.getPosition().x < volvo_workshop.getPosition().x+50 
-                ) {
+                if (car instanceof Volvo240 &&
+                        car.getPosition().x > volvo_workshop.getPosition().x - 50 &&
+                        car.getPosition().x < volvo_workshop.getPosition().x + 50 &&
+                        car.getPosition().y > volvo_workshop.getPosition().x - 50 &&
+                        car.getPosition().x < volvo_workshop.getPosition().x + 50) {
                     System.out.println("loaded Volvo");
-                    volvo_workshop.loadCar((Volvo240)car);
-                    car.setPosition(new Vector2(10000,10000));
+                    volvo_workshop.loadCar((Volvo240) car);
+                    car.setPosition(new Vector2(10000, 10000));
                     car.stopEngine();
                 }
                 frame.drawPanel.repaint();
@@ -114,7 +112,7 @@ public class CarController {
             car.gas(gas);
         }
     }
-    
+
     void brake(int amount) {
         double brake_amount = ((double) amount) / 100;
         for (Vehicle car : cars) {
@@ -123,7 +121,7 @@ public class CarController {
     }
 
     void turboOn() {
-        for (TurboCar car: turboCars) {
+        for (TurboCar car : turboCars) {
             car.setTurboActive();
         }
     }

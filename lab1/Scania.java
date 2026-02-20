@@ -4,29 +4,38 @@ public class Scania extends Truck {
 
     private int loadingAreaAngle;
 
-    public Scania(){
+    public Scania() {
         super(2, 250, Color.BLUE, "Scania");
         loadingAreaAngle = 0;
     }
 
-    public int getLoadingAreaAngle(){
+    public int getLoadingAreaAngle() {
         return this.loadingAreaAngle;
     }
 
-    public void setLoadingAreaAngle(int angle){
-        if(angle <= 70 && angle >= 0){
-            if(this.getCurrentSpeed() == 0){
+    public void setLoadingAreaAngle(int angle) {
+        if (angle <= 70 && angle >= 0) {
+            if (this.getCurrentSpeed() == 0) {
                 loadingAreaAngle = angle;
                 this.setLoadingAreaDown(!this.getLoadingAreaDown());
-            };
-        };
+            }
+            ;
+        }
+        ;
         return;
     }
 
     @Override
-    public void startEngine(){
-        if(getLoadingAreaDown()){
+    public void startEngine() {
+        if (getLoadingAreaDown()) {
             super.startEngine();
         }
-    } 
+    }
+
+    @Override
+    public void gas(double amount) {
+        if (!getLoadingAreaDown()) {
+            super.gas(amount);
+        }
+    }
 }
