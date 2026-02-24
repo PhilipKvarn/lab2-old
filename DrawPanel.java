@@ -17,9 +17,7 @@ public class DrawPanel extends JPanel{
     // Deprecated:
     // Point volvoPoint = new Point();
 
-
-    public record VehicleImageTuple(Vehicle vehicle, BufferedImage img){
-    }
+    public record VehicleImageTuple(Vehicle vehicle, BufferedImage img){}
     public ArrayList<VehicleImageTuple> VeichleImageList = new ArrayList<>();
     //
     //  Instantiates an ImageBuffer for a &veichle.

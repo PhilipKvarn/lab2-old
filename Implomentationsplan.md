@@ -52,6 +52,9 @@ Det känns som att detta kan användas här men jag är inte säker hur.
 # STEG 6:
 * Skriv om IncrementSpeed() och decrementSpeed() i veichle. har onödig logik.
 
+# STEG 7:
+* Se över hur truck påverkas av när man klickar för att höja/sänka flaket i interface.
+
 ## STEG KANSKE:
 * Gör om TrimmedCar och TurboCar till egna interfaces eller wrappers
 * Då kan vi ha t.ex TrimmedTurboTruck med samma funktionalitet
