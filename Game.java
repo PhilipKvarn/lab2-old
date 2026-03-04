@@ -18,40 +18,77 @@ public class Game {
     ArrayList<Truck> trucks = new ArrayList<>();
     VehicleWorkshop<Volvo240> volvo_workshop = new VehicleWorkshop<>(4, new Vector2(300, 300));
 
-    private Vector2 volvo_workshop_location = new Vector2(300, 300);
-
     public Game(){
         cc = new CarController();
+        
         frame = new CarView("CarSim 1.0", cc);
 
         cars = new ArrayList<>();
         turboCars = new ArrayList<>();
         trucks = new ArrayList<>();
+        timer.start();
+    }
+    public class TimerListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+
+            /*
+                // Detta är vad vi vill uppnå
+                for (Car car : cars) {
+                    checkCollision(car);
+                    checkWorkshopEntry(car);
+                    car.move();
+                }
+                frame.drawPanel.repaint
+            */
+
+            for (Vehicle car : cars) {
+                //
+                // Detta är troligen inte single responsibility.
+                // Logik borde inte hända här i controller.
+                // Det ska bara vara ett sätt att kalla på alla metoder relaterat till Veichle.
+                //
+                if (car.getCurrentSpeed() + car.getPosition().x > 700 ||
+                        car.getCurrentSpeed() + car.getPosition().y > 700 ||
+                        car.getPosition().x + car.getCurrentSpeed() < 0 ||
+                        car.getPosition().y + car.getCurrentSpeed() < 0) {
+                    car.turnRight(180);
+                    // car.stopEngine();
+                    car.move();
+                } else {
+                    car.move();
+                }
+                if (car instanceof Volvo240 &&
+                        car.getPosition().x > volvo_workshop.getPosition().x - 50 &&
+                        car.getPosition().x < volvo_workshop.getPosition().x + 50 &&
+                        car.getPosition().y > volvo_workshop.getPosition().x - 50 &&
+                        car.getPosition().x < volvo_workshop.getPosition().x + 50) {
+                    System.out.println("loaded Volvo");
+                    volvo_workshop.loadCar((Volvo240) car);
+                    car.setPosition(new Vector2(10000, 10000));
+                    car.stopEngine();
+                }
+                frame.drawPanel.repaint();
+            }
+        }
     }
 
     public static void main(String[] args) {
-        // Instance of this class
         Game game = new Game();
-
-        CarController cc = new CarController();
-
-        // Start a new view and send a reference of self
-        CarView frame = new CarView("CarSim 1.0", cc);
 
         Volvo240 instanceof_Volvo240 = new Volvo240();
         game.cars.add(instanceof_Volvo240);
-        frame.drawPanel.instantiate_image(instanceof_Volvo240, "pics/Volvo240.jpg");
-        instanceof_Volvo240.turnLeft(45);
+        game.frame.drawPanel.instantiate_image(instanceof_Volvo240, "pics/Volvo240.jpg");
 
         Saab95 instanceof_Saab95 = new Saab95();
-        frame.drawPanel.instantiate_image(instanceof_Saab95, "pics/Saab95.jpg");
-        game.turboCars.add(instanceof_Saab95);
+        game.frame.drawPanel.instantiate_image(instanceof_Saab95, "pics/Saab95.jpg");
+        game.cars.add(instanceof_Saab95);
 
         instanceof_Saab95.setPosition(Vector2.add(Vector2.zero(), 0, 200));
 
         Truck instanceof_Truck = new Truck(100, 100, Color.BLACK, "fn");
-        frame.drawPanel.instantiate_image(instanceof_Truck, "pics/Scania.jpg");
-        game.trucks.add(instanceof_Truck);
+        game.frame.drawPanel.instantiate_image(instanceof_Truck, "pics/Scania.jpg");
+        game.cars.add(instanceof_Truck);
+        game.cc.cars = game.cars;
         
         instanceof_Truck.setPosition(Vector2.add(Vector2.zero(), 0, 400));
     }
