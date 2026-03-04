@@ -7,18 +7,15 @@ public class VehicleTransport extends Truck {
     public VehicleTransport(int nrDoors, double enginePower, Color color, String modelName, int maxCapacity) {
         super(nrDoors, enginePower, color, modelName);
         setLoadingAreaDown(false);
-        parentLoader = new VehicleLoader<>(maxCapacity);
+        parentLoader = new VehicleLoader<>(maxCapacity, getPosition());
     }
 
     public void LoadNewVehicle(Vehicle Vehicle) {
         if (Vehicle instanceof VehicleTransport) {
             return;
-        } else{
-            if (Math.abs(Vehicle.getPosition().x) - Math.abs(getPosition().x) <= 1 &&
-                Math.abs(Vehicle.getPosition().y) - Math.abs(getPosition().y) <= 1) {
-            parentLoader.LoadNewVehicle(Vehicle);
-            } else {
-                // Handle Vehicle too far away to load
+        } else {
+            {
+                parentLoader.LoadNewVehicle(Vehicle);
             }
         }
         return;
@@ -27,7 +24,7 @@ public class VehicleTransport extends Truck {
     public Vehicle unloadVehicle() {
         Vehicle unloaded_car = parentLoader.unloadVehicle();
         if (unloaded_car != null) {
-            unloaded_car.setPosition(Vector2.add(getPosition(), -1, -1));   
+            unloaded_car.setPosition(Vector2.add(getPosition(), -1, -1));
         }
         return unloaded_car;
     }
@@ -42,6 +39,7 @@ public class VehicleTransport extends Truck {
     public void move() {
         super.move();
         parentLoader.forEachItem(loadedCar -> loadedCar.setPosition(this.getPosition()));
+        parentLoader.setPosition(getPosition());
     }
 
     @Override

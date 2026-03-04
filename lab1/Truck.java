@@ -4,27 +4,35 @@ public class Truck extends Vehicle {
 
     protected boolean loadingAreaDown;
 
-    public Truck(int nrDoors, double enginePower, Color color, String modelName){
+    public Truck(int nrDoors, double enginePower, Color color, String modelName) {
         super(nrDoors, enginePower, color, modelName);
         loadingAreaDown = true;
     }
 
-    public boolean getLoadingAreaDown(){
+    public boolean getLoadingAreaDown() {
         return loadingAreaDown;
     }
 
-    public void setLoadingAreaDown(boolean loadingState){
-        if (getCurrentSpeed() == 0) {       
-            loadingAreaDown = loadingState;     // Kan inte ändra loadingArea medans fordonet är i rörelse
+    public void setLoadingAreaDown(boolean loadingState) {
+        if (getCurrentSpeed() == 0) {
+            loadingAreaDown = loadingState; // Kan inte ändra loadingArea medans fordonet är i rörelse
         }
         return;
     }
 
     @Override
-    public void startEngine(){
-        if(loadingAreaDown){
+    public void startEngine() {
+        if (loadingAreaDown) {
             super.startEngine();
         }
-    } 
+    }
+
+    @Override
+
+    public void gas(double amount) {
+        if (loadingAreaDown) {
+            super.gas(amount);
+        }
+    }
 
 }
