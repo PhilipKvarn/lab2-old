@@ -5,12 +5,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-/*
-* Each step the TimerListener moves all the cars in the list and tells the
-* view to update its images. Change this method to your needs.
-*/
+// Observerpattern ?!!??!?!?! 
+// idk verkar som en ok idée som vi kan implomentera här eller nått.
+// game/main observerar detta och kallar på detta.
+// Men vi vill inte implomentera vad funktionen ska göra här
+// Utan det ska vara i klassen som vill göra något när timerListener händer frfrfrfrfrfr.
+
+
 public class TimerListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
+
+        /*
+            // Detta är vad vi vill uppnå
+            for (Car car : cars) {
+                checkCollision(car);
+                checkWorkshopEntry(car);
+                car.move();
+            }
+            frame.drawPanel.repaint
+        */
+
         /* for (Vehicle car : cars) {
             //
             // Detta är troligen inte single responsibility.

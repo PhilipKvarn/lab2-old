@@ -15,8 +15,6 @@ public class CarController {
     // member fields:
 
     ArrayList<Vehicle> cars = new ArrayList<>();
-    ArrayList<TurboCar> turboCars = new ArrayList<>();
-    ArrayList<Truck> trucks = new ArrayList<>();
 
     // Calls the gas method for each car once
     void gas(int amount) {
@@ -34,26 +32,38 @@ public class CarController {
     }
 
     void turboOn() {
-        for (TurboCar car : turboCars) {
-            car.setTurboActive();
+        for (Vehicle car : cars) {
+            if (car instanceof TurboCar) {
+                TurboCar turboCar = (TurboCar)car;
+                turboCar.setTurboActive();
+            }
         }
     }
 
     void turboOff() {
-        for (TurboCar car : turboCars) {
-            car.setTurboInactive();
+        for (Vehicle car : cars) {
+            if (car instanceof TurboCar) {
+                TurboCar turboCar = (TurboCar)car;
+                turboCar.setTurboInactive();
+            }
         }
     }
 
     void liftTruckBed() {
-        for (Truck car : trucks) {
-            car.setLoadingAreaDown(false);
+        for (Vehicle car : cars) {
+            if (car instanceof Truck) {
+                Truck truck = (Truck)car;
+                truck.setLoadingAreaDown(false);
+            }
         }
     }
 
     void lowerTruckBed() {
-        for (Truck car : trucks) {
-            car.setLoadingAreaDown(true);
+        for (Vehicle car : cars) {
+            if (car instanceof Truck) {
+                Truck truck = (Truck)car;
+                truck.setLoadingAreaDown(true);
+            }
         }
     }
 
