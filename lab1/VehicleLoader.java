@@ -7,21 +7,26 @@ public class VehicleLoader<carType extends Vehicle> {
     ArrayList<carType> loadingStorage = new ArrayList<>();
 
     protected int maxCapacity;
+    private Vector2 position;
 
-    public VehicleLoader(int maxCap) {
+    public VehicleLoader(int maxCap, Vector2 position) {
         maxCapacity = maxCap;
+        this.position = position;
     }
 
     public void LoadNewVehicle(carType Vehicle) {
         if (loadingStorage.size() < this.maxCapacity) {
-            loadingStorage.add(Vehicle);
+            if (Math.abs(Vehicle.getPosition().x) - Math.abs(position.x) <= 1 &&
+                    Math.abs(Vehicle.getPosition().y) - Math.abs(position.y) <= 1) {
+                loadingStorage.add(Vehicle);
+            }
         }
 
         return;
     }
 
     public carType unloadVehicle() {
-        if(loadingStorage.isEmpty()){
+        if (loadingStorage.isEmpty()) {
             return null;
         } else {
             carType unloadCar = loadingStorage.getLast();
@@ -30,8 +35,8 @@ public class VehicleLoader<carType extends Vehicle> {
         }
     }
 
-    public void forEachItem(Consumer<carType> func){
-        for (carType car : loadingStorage){
+    public void forEachItem(Consumer<carType> func) {
+        for (carType car : loadingStorage) {
             func.accept(car);
         }
     }
@@ -42,5 +47,9 @@ public class VehicleLoader<carType extends Vehicle> {
 
     public int getCapacity() {
         return loadingStorage.size();
+    }
+
+    public void setPosition(Vector2 pos) {
+        this.position = pos;
     }
 }
