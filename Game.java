@@ -23,9 +23,7 @@ public class Game {
         
         frame = new CarView("CarSim 1.0", cc);
 
-        cars = new ArrayList<>();
-        turboCars = new ArrayList<>();
-        trucks = new ArrayList<>();
+        cars = cc.cars;
         timer.start();
     }
     public class TimerListener implements ActionListener {
@@ -36,6 +34,7 @@ public class Game {
                 car.move();
             }
             frame.drawPanel.repaint();
+            cars = cc.cars;
         }
     }
     
@@ -67,21 +66,21 @@ public class Game {
     public static void main(String[] args) {
         Game game = new Game();
 
-        Volvo240 instanceof_Volvo240 = new Volvo240();
-        game.cars.add(instanceof_Volvo240);
-        game.frame.drawPanel.instantiate_image(instanceof_Volvo240, "pics/Volvo240.jpg");
+        //Volvo240 instanceof_Volvo240 = new Volvo240();
+        //game.cars.add(instanceof_Volvo240);
+        //game.frame.drawPanel.instantiate_image(instanceof_Volvo240, "pics/Volvo240.jpg");
 
-        Saab95 instanceof_Saab95 = new Saab95();
-        game.frame.drawPanel.instantiate_image(instanceof_Saab95, "pics/Saab95.jpg");
-        game.cars.add(instanceof_Saab95);
+        //Saab95 instanceof_Saab95 = new Saab95();
+        //game.frame.drawPanel.instantiate_image(instanceof_Saab95, "pics/Saab95.jpg");
+        //game.cars.add(instanceof_Saab95);
 
-        instanceof_Saab95.setPosition(Vector2.add(Vector2.zero(), 0, 200));
+        //instanceof_Saab95.setPosition(Vector2.add(Vector2.zero(), 0, 200));
 
-        Truck instanceof_Truck = new Truck(100, 100, Color.BLACK, "fn");
-        game.frame.drawPanel.instantiate_image(instanceof_Truck, "pics/Scania.jpg");
-        game.cars.add(instanceof_Truck);
-        game.cc.cars = game.cars;
+        //Truck instanceof_Truck = new Truck(100, 100, Color.BLACK, "fn");
+        //game.frame.drawPanel.instantiate_image(instanceof_Truck, "pics/Scania.jpg");
+        //game.cars.add(instanceof_Truck);
+        //game.cc.cars = game.cars;
         
-        instanceof_Truck.setPosition(Vector2.add(Vector2.zero(), 0, 400));
+        //instanceof_Truck.setPosition(Vector2.add(Vector2.zero(), 0, 400));
     }
 }

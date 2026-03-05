@@ -7,6 +7,7 @@ public class Scania extends Truck {
     public Scania() {
         super(2, 250, Color.BLUE, "Scania");
         loadingAreaAngle = 0;
+        ImgPath = "pics/Scania.jpg";
     }
 
     public int getLoadingAreaAngle() {

@@ -7,6 +7,7 @@ public class Vehicle implements Movable {
     private double currentSpeed;
     private Color color;
     private String modelName;
+    protected String ImgPath;
 
     private Vector2 VehiclePosition = new Vector2(0.0, 0.0);
     private Vector2 VehicleDirection = new Vector2(1.0, 0.0);

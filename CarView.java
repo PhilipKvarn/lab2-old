@@ -4,6 +4,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * This class represents the full view of the MVC pattern of your car simulator.
@@ -23,11 +24,22 @@ public class CarView extends JFrame{
     DrawPanel drawPanel = new DrawPanel(X, Y-240);
     
     JPanel controlPanel = new JPanel();
+    JPanel statsPanel = new JPanel();
+    JPanel createPanel = new JPanel();
+
+    JButton createButton = new JButton("Create");
+    JButton removeButton = new JButton("Remove");
 
     JPanel gasPanel = new JPanel();
     JSpinner gasSpinner = new JSpinner();
     int gasAmount = 0;
     JLabel gasLabel = new JLabel("Amount of gas");
+
+    JPanel selectionPanel = new JPanel();
+    String[] states = {"Volvo240","Saab95","Scania","Random"};
+    String selectedState = "Volvo240";
+    JComboBox newVehicleDrowdown = new JComboBox(states);
+    JLabel dropdownLabel = new JLabel("New Vehicle");
 
     JButton gasButton = new JButton("Gas");
     JButton brakeButton = new JButton("Brake");
@@ -67,35 +79,49 @@ public class CarView extends JFrame{
             }
         });
 
+        statsPanel.setLayout(new GridLayout(3,1));
+        statsPanel.setPreferredSize(new Dimension((X*1/4)-4,200));
+
+        createPanel.setLayout(new GridLayout(1,2));
+
         gasPanel.setLayout(new BorderLayout());
         gasPanel.add(gasLabel, BorderLayout.PAGE_START);
         gasPanel.add(gasSpinner, BorderLayout.PAGE_END);
+        statsPanel.add(gasPanel);
 
-        this.add(gasPanel);
+        selectionPanel.setLayout(new BorderLayout());
+        selectionPanel.add(dropdownLabel,BorderLayout.PAGE_START);
+        selectionPanel.add(newVehicleDrowdown);
+        statsPanel.add(selectionPanel);
+
+        createPanel.add(createButton);
+        createPanel.add(removeButton);
+        selectionPanel.add(createPanel,BorderLayout.PAGE_END);
+        
+        this.add(statsPanel);
 
         controlPanel.setLayout(new GridLayout(2,4));
 
         controlPanel.add(gasButton, 0);
         controlPanel.add(turboOnButton, 1);
         controlPanel.add(liftBedButton, 2);
-        controlPanel.add(brakeButton, 3);
-        controlPanel.add(turboOffButton, 4);
-        controlPanel.add(lowerBedButton, 5);
-        controlPanel.setPreferredSize(new Dimension((X/2)+4, 200));
-        this.add(controlPanel);
-        controlPanel.setBackground(Color.CYAN);
-
 
         startButton.setBackground(Color.blue);
         startButton.setForeground(Color.green);
         startButton.setPreferredSize(new Dimension(X/5-15,200));
-        this.add(startButton);
+        controlPanel.add(startButton,3);
 
+        controlPanel.add(brakeButton, 4);
+        controlPanel.add(turboOffButton, 5);
+        controlPanel.add(lowerBedButton, 6);
+        controlPanel.setPreferredSize(new Dimension((X*2/3), 200));
+        this.add(controlPanel);
+        controlPanel.setBackground(Color.CYAN);
 
         stopButton.setBackground(Color.red);
         stopButton.setForeground(Color.black);
         stopButton.setPreferredSize(new Dimension(X/5-15,200));
-        this.add(stopButton);
+        controlPanel.add(stopButton,7);
 
         // This actionListener is for the gas button only
         // TODO: Create more for each component as necessary
@@ -152,6 +178,58 @@ public class CarView extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 carC.stopEngine();
+            }
+        });
+        
+        newVehicleDrowdown.addActionListener(new ActionListener() {
+         
+            @Override
+            public void actionPerformed(ActionEvent e){
+                selectedState = String.valueOf(newVehicleDrowdown.getSelectedItem());
+            }
+            
+        });
+
+        createButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Vehicle createdVehicle;
+                switch (selectedState) {
+                    case "Volvo240":
+                        createdVehicle = CarFactory.createVolvo240();
+                        drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
+                        carC.cars.add(createdVehicle);
+                        System.out.println("Created Volvo");
+                        break;
+                    case "Saab95":
+                        createdVehicle = CarFactory.createSaab95();
+                        drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
+                        carC.cars.add(createdVehicle);
+                        System.out.println("Created Saab");
+                        break;
+                    case "Scania":
+                        createdVehicle = CarFactory.createScania();
+                        drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
+                        carC.cars.add(createdVehicle);
+                        System.out.println("Created Scania");
+                        break;
+                    case "Random":
+                        createdVehicle = CarFactory.createRandomVehicle();
+                        drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
+                        carC.cars.add(createdVehicle);
+                        System.out.println(createdVehicle.getModelName());
+                        break;
+                    default:
+                        System.out.println("Default");
+                        break;
+                }
+            }
+        });
+        
+        removeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                carC.cars.removeFirst();
             }
         });
 
