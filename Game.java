@@ -23,6 +23,8 @@ public class Game {
         
         frame = new CarView("CarSim 1.0", cc);
 
+        cc.screenHeight = frame.getScreenHeight();
+        cc.screenWidth = frame.getScreenWidth();
         cars = cc.cars;
         timer.start();
     }

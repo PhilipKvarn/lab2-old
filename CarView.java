@@ -4,6 +4,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.ModuleLayer.Controller;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -22,7 +23,7 @@ public class CarView extends JFrame {
     private static final int Y = 800;
 
     // The controller member
-    CarController carC;
+    ControllerInterface carC;
 
     DrawPanel drawPanel = new DrawPanel(X, Y - 240);
 
@@ -55,7 +56,7 @@ public class CarView extends JFrame {
     JButton stopButton = new JButton("Stop all cars");
 
     // Constructor
-    public CarView(String framename, CarController cc) {
+    public CarView(String framename, ControllerInterface cc) {
         this.carC = cc;
         initComponents(framename);
     }
@@ -197,40 +198,9 @@ public class CarView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Vehicle createdVehicle;
-                if (carC.cars.size() < 10) {
-                    switch (selectedState) {
-                        case "Volvo240":
-                            createdVehicle = CarFactory.createVolvo240();
-                            drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
-                            carC.cars.add(createdVehicle);
-                            createdVehicle.setPosition(new Vector2(0, (double) getRandomScreenY()));
-                            System.out.println("Created Volvo");
-                            break;
-                        case "Saab95":
-                            createdVehicle = CarFactory.createSaab95();
-                            drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
-                            carC.cars.add(createdVehicle);
-                            createdVehicle.setPosition(new Vector2(0, (double) getRandomScreenY()));
-                            System.out.println("Created Saab");
-                            break;
-                        case "Scania":
-                            createdVehicle = CarFactory.createScania();
-                            drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
-                            carC.cars.add(createdVehicle);
-                            createdVehicle.setPosition(new Vector2(0, (double) getRandomScreenY()));
-                            System.out.println("Created Scania");
-                            break;
-                        case "Random":
-                            createdVehicle = CarFactory.createRandomVehicle();
-                            drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
-                            carC.cars.add(createdVehicle);
-                            System.out.println(createdVehicle.getModelName());
-                            createdVehicle.setPosition(new Vector2(0, (double) getRandomScreenY()));
-                            break;
-                        default:
-                            System.out.println("Default");
-                            break;
-                    }
+                createdVehicle = carC.createCar(selectedState);
+                if (createdVehicle != null) {
+                    drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);   
                 }
             }
         });
@@ -238,8 +208,7 @@ public class CarView extends JFrame {
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Vehicle carToRemove = carC.cars.getFirst();
-                carC.cars.removeFirst();
+                carC.removeCar();
                 drawPanel.uninstantiate_image();
             }
         });
@@ -257,10 +226,11 @@ public class CarView extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    int getRandomScreenY() {
-        Random generator = new Random();
-        int randint = generator.nextInt(Y - controlPanel.getHeight() - 50);
-        return randint;
+    public int getScreenHeight(){
+        return Y;
+    }
 
+    public int getScreenWidth(){
+        return X;
     }
 }
