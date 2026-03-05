@@ -238,9 +238,11 @@ public class CarView extends JFrame {
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Vehicle carToRemove = carC.cars.getFirst();
-                carC.cars.removeFirst();
-                drawPanel.uninstantiate_image();
+                if (carC.cars.size() > 0) {
+                    Vehicle carToRemove = carC.cars.getFirst();
+                    carC.cars.removeFirst();
+                    drawPanel.uninstantiate_image();
+                }
             }
         });
 
