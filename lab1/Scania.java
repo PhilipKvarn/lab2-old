@@ -35,7 +35,7 @@ public class Scania extends Truck {
 
     @Override
     public void gas(double amount) {
-        if (!getLoadingAreaDown()) {
+        if (getLoadingAreaDown()) {
             super.gas(amount);
         }
     }
