@@ -31,7 +31,11 @@ public class DrawPanel extends JPanel{
         } catch (IOException ex){
             ex.printStackTrace();
         }
-    }    
+    }
+    
+    public void uninstantiate_image(){
+        VeichleImageList.removeFirst();
+    }
 
     BufferedImage volvoWorkshopImage;
     Point volvoWorkshopPoint = new Point(300,300);

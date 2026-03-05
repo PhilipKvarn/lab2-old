@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * This class represents the full view of the MVC pattern of your car simulator.
@@ -199,18 +200,21 @@ public class CarView extends JFrame{
                         createdVehicle = CarFactory.createVolvo240();
                         drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
                         carC.cars.add(createdVehicle);
+                        createdVehicle.setPosition( new Vector2(0,(double)getRandomScreenY()));
                         System.out.println("Created Volvo");
                         break;
                     case "Saab95":
                         createdVehicle = CarFactory.createSaab95();
                         drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
                         carC.cars.add(createdVehicle);
+                        createdVehicle.setPosition( new Vector2(0,(double)getRandomScreenY()));
                         System.out.println("Created Saab");
                         break;
                     case "Scania":
                         createdVehicle = CarFactory.createScania();
                         drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
                         carC.cars.add(createdVehicle);
+                        createdVehicle.setPosition( new Vector2(0,(double)getRandomScreenY()));
                         System.out.println("Created Scania");
                         break;
                     case "Random":
@@ -218,6 +222,7 @@ public class CarView extends JFrame{
                         drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
                         carC.cars.add(createdVehicle);
                         System.out.println(createdVehicle.getModelName());
+                        createdVehicle.setPosition( new Vector2(0,(double)getRandomScreenY()));
                         break;
                     default:
                         System.out.println("Default");
@@ -229,7 +234,9 @@ public class CarView extends JFrame{
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Vehicle carToRemove = carC.cars.getFirst();
                 carC.cars.removeFirst();
+                drawPanel.uninstantiate_image();
             }
         });
 
@@ -244,5 +251,12 @@ public class CarView extends JFrame{
         this.setVisible(true);
         // Make sure the frame exits when "x" is pressed
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    int getRandomScreenY(){
+        Random generator = new Random();
+        int randint = generator.nextInt(Y-controlPanel.getHeight());
+        return randint;
+
     }
 }

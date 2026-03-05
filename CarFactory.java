@@ -28,21 +28,4 @@ public class CarFactory {
                 return createVolvo240();
         }
     }
-
-    public static Vehicle removeRandomVehicle(){
-        Random generator = new Random();
-        int randint = generator.nextInt(3);
-        System.out.println(randint);
-        switch (randint) {
-            case 0:
-                return createVolvo240();
-            case 1:
-                return createSaab95();
-            case 2:
-                return createScania();
-            default:
-                return createVolvo240();
-        }
-    }
-
 }

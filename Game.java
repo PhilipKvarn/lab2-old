@@ -54,8 +54,8 @@ public class Game {
         if (car instanceof Volvo240 &&
                 car.getPosition().x > volvo_workshop.getPosition().x - 50 &&
                 car.getPosition().x < volvo_workshop.getPosition().x + 50 &&
-                car.getPosition().y > volvo_workshop.getPosition().x - 50 &&
-                car.getPosition().x < volvo_workshop.getPosition().x + 50) {
+                car.getPosition().y > volvo_workshop.getPosition().y - 50 &&
+                car.getPosition().y < volvo_workshop.getPosition().y + 50) {
             System.out.println("loaded Volvo");
             volvo_workshop.loadCar((Volvo240) car);
             car.setPosition(new Vector2(10000, 10000));
