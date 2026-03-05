@@ -9,21 +9,23 @@ import java.util.Random;
 
 /**
  * This class represents the full view of the MVC pattern of your car simulator.
- * It initializes with being center on the screen and attaching it's controller in it's state.
- * It communicates with the Controller by calling methods of it when an action fires of in
+ * It initializes with being center on the screen and attaching it's controller
+ * in it's state.
+ * It communicates with the Controller by calling methods of it when an action
+ * fires of in
  * each of it's components.
  * TODO: Write more actionListeners and wire the rest of the buttons
  **/
 
-public class CarView extends JFrame{
+public class CarView extends JFrame {
     private static final int X = 800;
     private static final int Y = 800;
 
     // The controller member
     CarController carC;
 
-    DrawPanel drawPanel = new DrawPanel(X, Y-240);
-    
+    DrawPanel drawPanel = new DrawPanel(X, Y - 240);
+
     JPanel controlPanel = new JPanel();
     JPanel statsPanel = new JPanel();
     JPanel createPanel = new JPanel();
@@ -37,7 +39,7 @@ public class CarView extends JFrame{
     JLabel gasLabel = new JLabel("Amount of gas");
 
     JPanel selectionPanel = new JPanel();
-    String[] states = {"Volvo240","Saab95","Scania","Random"};
+    String[] states = { "Volvo240", "Saab95", "Scania", "Random" };
     String selectedState = "Volvo240";
     JComboBox newVehicleDrowdown = new JComboBox(states);
     JLabel dropdownLabel = new JLabel("New Vehicle");
@@ -53,37 +55,37 @@ public class CarView extends JFrame{
     JButton stopButton = new JButton("Stop all cars");
 
     // Constructor
-    public CarView(String framename, CarController cc){
+    public CarView(String framename, CarController cc) {
         this.carC = cc;
         initComponents(framename);
     }
 
     // Sets everything in place and fits everything
-    // TODO: Take a good look and make sure you understand how these methods and components work
+    // TODO: Take a good look and make sure you understand how these methods and
+    // components work
     private void initComponents(String title) {
 
         this.setTitle(title);
-        this.setPreferredSize(new Dimension(X,Y));
+        this.setPreferredSize(new Dimension(X, Y));
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
         this.add(drawPanel);
 
-        SpinnerModel spinnerModel =
-                new SpinnerNumberModel(0, //initial value
-                        0, //min
-                        100, //max
-                        1);//step
+        SpinnerModel spinnerModel = new SpinnerNumberModel(0, // initial value
+                0, // min
+                100, // max
+                1);// step
         gasSpinner = new JSpinner(spinnerModel);
         gasSpinner.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                gasAmount = (int) ((JSpinner)e.getSource()).getValue();
+                gasAmount = (int) ((JSpinner) e.getSource()).getValue();
             }
         });
 
-        statsPanel.setLayout(new GridLayout(3,1));
-        statsPanel.setPreferredSize(new Dimension((X*1/4)-4,200));
+        statsPanel.setLayout(new GridLayout(3, 1));
+        statsPanel.setPreferredSize(new Dimension((X * 1 / 4) - 4, 200));
 
-        createPanel.setLayout(new GridLayout(1,2));
+        createPanel.setLayout(new GridLayout(1, 2));
 
         gasPanel.setLayout(new BorderLayout());
         gasPanel.add(gasLabel, BorderLayout.PAGE_START);
@@ -91,17 +93,17 @@ public class CarView extends JFrame{
         statsPanel.add(gasPanel);
 
         selectionPanel.setLayout(new BorderLayout());
-        selectionPanel.add(dropdownLabel,BorderLayout.PAGE_START);
+        selectionPanel.add(dropdownLabel, BorderLayout.PAGE_START);
         selectionPanel.add(newVehicleDrowdown);
         statsPanel.add(selectionPanel);
 
         createPanel.add(createButton);
         createPanel.add(removeButton);
-        selectionPanel.add(createPanel,BorderLayout.PAGE_END);
-        
+        selectionPanel.add(createPanel, BorderLayout.PAGE_END);
+
         this.add(statsPanel);
 
-        controlPanel.setLayout(new GridLayout(2,4));
+        controlPanel.setLayout(new GridLayout(2, 4));
 
         controlPanel.add(gasButton, 0);
         controlPanel.add(turboOnButton, 1);
@@ -109,20 +111,20 @@ public class CarView extends JFrame{
 
         startButton.setBackground(Color.blue);
         startButton.setForeground(Color.green);
-        startButton.setPreferredSize(new Dimension(X/5-15,200));
-        controlPanel.add(startButton,3);
+        startButton.setPreferredSize(new Dimension(X / 5 - 15, 200));
+        controlPanel.add(startButton, 3);
 
         controlPanel.add(brakeButton, 4);
         controlPanel.add(turboOffButton, 5);
         controlPanel.add(lowerBedButton, 6);
-        controlPanel.setPreferredSize(new Dimension((X*2/3), 200));
+        controlPanel.setPreferredSize(new Dimension((X * 2 / 3), 200));
         this.add(controlPanel);
         controlPanel.setBackground(Color.CYAN);
 
         stopButton.setBackground(Color.red);
         stopButton.setForeground(Color.black);
-        stopButton.setPreferredSize(new Dimension(X/5-15,200));
-        controlPanel.add(stopButton,7);
+        stopButton.setPreferredSize(new Dimension(X / 5 - 15, 200));
+        controlPanel.add(stopButton, 7);
 
         // This actionListener is for the gas button only
         // TODO: Create more for each component as necessary
@@ -132,14 +134,14 @@ public class CarView extends JFrame{
                 carC.gas(gasAmount);
             }
         });
-        
+
         brakeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 carC.brake(gasAmount);
             }
         });
-        
+
         turboOnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -181,56 +183,58 @@ public class CarView extends JFrame{
                 carC.stopEngine();
             }
         });
-        
+
         newVehicleDrowdown.addActionListener(new ActionListener() {
-         
+
             @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 selectedState = String.valueOf(newVehicleDrowdown.getSelectedItem());
             }
-            
+
         });
 
         createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Vehicle createdVehicle;
-                switch (selectedState) {
-                    case "Volvo240":
-                        createdVehicle = CarFactory.createVolvo240();
-                        drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
-                        carC.cars.add(createdVehicle);
-                        createdVehicle.setPosition( new Vector2(0,(double)getRandomScreenY()));
-                        System.out.println("Created Volvo");
-                        break;
-                    case "Saab95":
-                        createdVehicle = CarFactory.createSaab95();
-                        drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
-                        carC.cars.add(createdVehicle);
-                        createdVehicle.setPosition( new Vector2(0,(double)getRandomScreenY()));
-                        System.out.println("Created Saab");
-                        break;
-                    case "Scania":
-                        createdVehicle = CarFactory.createScania();
-                        drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
-                        carC.cars.add(createdVehicle);
-                        createdVehicle.setPosition( new Vector2(0,(double)getRandomScreenY()));
-                        System.out.println("Created Scania");
-                        break;
-                    case "Random":
-                        createdVehicle = CarFactory.createRandomVehicle();
-                        drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
-                        carC.cars.add(createdVehicle);
-                        System.out.println(createdVehicle.getModelName());
-                        createdVehicle.setPosition( new Vector2(0,(double)getRandomScreenY()));
-                        break;
-                    default:
-                        System.out.println("Default");
-                        break;
+                if (carC.cars.size() < 10) {
+                    switch (selectedState) {
+                        case "Volvo240":
+                            createdVehicle = CarFactory.createVolvo240();
+                            drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
+                            carC.cars.add(createdVehicle);
+                            createdVehicle.setPosition(new Vector2(0, (double) getRandomScreenY()));
+                            System.out.println("Created Volvo");
+                            break;
+                        case "Saab95":
+                            createdVehicle = CarFactory.createSaab95();
+                            drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
+                            carC.cars.add(createdVehicle);
+                            createdVehicle.setPosition(new Vector2(0, (double) getRandomScreenY()));
+                            System.out.println("Created Saab");
+                            break;
+                        case "Scania":
+                            createdVehicle = CarFactory.createScania();
+                            drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
+                            carC.cars.add(createdVehicle);
+                            createdVehicle.setPosition(new Vector2(0, (double) getRandomScreenY()));
+                            System.out.println("Created Scania");
+                            break;
+                        case "Random":
+                            createdVehicle = CarFactory.createRandomVehicle();
+                            drawPanel.instantiate_image(createdVehicle, createdVehicle.ImgPath);
+                            carC.cars.add(createdVehicle);
+                            System.out.println(createdVehicle.getModelName());
+                            createdVehicle.setPosition(new Vector2(0, (double) getRandomScreenY()));
+                            break;
+                        default:
+                            System.out.println("Default");
+                            break;
+                    }
                 }
             }
         });
-        
+
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -246,16 +250,16 @@ public class CarView extends JFrame{
         // Get the computer screen resolution
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         // Center the frame
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
         // Make the frame visible
         this.setVisible(true);
         // Make sure the frame exits when "x" is pressed
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    int getRandomScreenY(){
+    int getRandomScreenY() {
         Random generator = new Random();
-        int randint = generator.nextInt(Y-controlPanel.getHeight());
+        int randint = generator.nextInt(Y - controlPanel.getHeight() - 50);
         return randint;
 
     }
