@@ -119,7 +119,9 @@ public class CarController implements ControllerInterface{
     }
 
     public void removeCar(){
-        cars.removeFirst();
+        if (cars.size() > 0) {
+            cars.removeFirst();
+        }
     }
 
     private int getRandomScreenY() {
