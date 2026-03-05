@@ -208,8 +208,8 @@ public class CarView extends JFrame {
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                    carC.removeCar();
-                    drawPanel.uninstantiate_image();
+                carC.removeCar();
+                drawPanel.uninstantiate_image();
             }
         });
 

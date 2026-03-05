@@ -5,17 +5,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Game {
+public class Game implements TimerListeners{
 
     private int delay;
-    private Timer timer = new Timer(delay, new TimerListener());
+    private TimerListener listener = new TimerListener();
+    private Timer timer = new Timer(delay, listener);
 
     CarView frame;
     CarController cc;
     
     ArrayList<Vehicle> cars;
-    ArrayList<TurboCar> turboCars = new ArrayList<>();
-    ArrayList<Truck> trucks = new ArrayList<>();
     VehicleWorkshop<Volvo240> volvo_workshop = new VehicleWorkshop<>(4, new Vector2(300, 300));
 
     public Game(){
@@ -25,19 +24,19 @@ public class Game {
 
         cc.screenHeight = frame.getScreenHeight();
         cc.screenWidth = frame.getScreenWidth();
+        listener.addListener(this);
         cars = cc.cars;
         timer.start();
     }
-    public class TimerListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            for (Vehicle car : cars) {
+
+    public void update(){
+        for (Vehicle car : cars) {
                 handleCollision(car);
                 handleWorkshopEntry(car);
                 car.move();
             }
             frame.drawPanel.repaint();
             cars = cc.cars;
-        }
     }
     
     private void handleCollision(Vehicle v){
@@ -67,22 +66,5 @@ public class Game {
 
     public static void main(String[] args) {
         Game game = new Game();
-
-        //Volvo240 instanceof_Volvo240 = new Volvo240();
-        //game.cars.add(instanceof_Volvo240);
-        //game.frame.drawPanel.instantiate_image(instanceof_Volvo240, "pics/Volvo240.jpg");
-
-        //Saab95 instanceof_Saab95 = new Saab95();
-        //game.frame.drawPanel.instantiate_image(instanceof_Saab95, "pics/Saab95.jpg");
-        //game.cars.add(instanceof_Saab95);
-
-        //instanceof_Saab95.setPosition(Vector2.add(Vector2.zero(), 0, 200));
-
-        //Truck instanceof_Truck = new Truck(100, 100, Color.BLACK, "fn");
-        //game.frame.drawPanel.instantiate_image(instanceof_Truck, "pics/Scania.jpg");
-        //game.cars.add(instanceof_Truck);
-        //game.cc.cars = game.cars;
-        
-        //instanceof_Truck.setPosition(Vector2.add(Vector2.zero(), 0, 400));
     }
 }
